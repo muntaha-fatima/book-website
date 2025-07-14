@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Mail, Phone, MapPin, Send, MessageCircle, Clock, Globe, CheckCircle } from "lucide-react"
+import { Mail, Phone, MapPin, Send, Globe, CheckCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -113,7 +113,7 @@ export default function ContactPage() {
             ہم سے رابطہ کریں
           </h2>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+            We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
           </p>
         </div>
       </section>
@@ -180,7 +180,7 @@ export default function ContactPage() {
                       <CheckCircle className="w-6 h-6 text-emerald-600" />
                       <div>
                         <p className="font-semibold text-emerald-800">Message Sent Successfully!</p>
-                        <p className="text-sm text-emerald-600">We'll get back to you soon.</p>
+                        <p className="text-sm text-emerald-600">We&apos;ll get back to you soon.</p>
                       </div>
                     </div>
                   )}
