@@ -230,21 +230,13 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {books.map((book) => (
             <Card key={book._id}>
-    {book.promoImageUrl ? (
-  <Image
-    src={book.promoImageUrl}
-    alt={book.title}
-    width={500}
-    height={300}
-  />
-) : (
-  <Image
-    src="/default.jpg"
-    alt="Default"
-    width={500}
-    height={300}
-  />
-)}
+    {book.promoImageUrl && (
+                          <img
+                            src={book.promoImageUrl}
+                            alt={book.title}
+                            className="w-full h-40 object-cover rounded-md mb-4"
+                          />
+                        )}
               <CardContent>
                 <h3 className="text-lg font-bold mt-2">{book.title}</h3>
                 <p className="text-sm text-muted-foreground">{book.author}</p>
