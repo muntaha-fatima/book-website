@@ -234,7 +234,7 @@ export default function HomePage() {
                           <img
                             src={book.promoImageUrl}
                             alt={book.title}
-                            className="w-full h-40 object-cover rounded-md mb-4"
+                            className="w-[156px] h-40 object-cover rounded-md mb-4"
                           />
                         )}
               <CardContent>
