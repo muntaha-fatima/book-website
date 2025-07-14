@@ -189,6 +189,7 @@
 import { useEffect, useState } from "react";
 
 import { Card, CardContent, } from "@/components/ui/card";
+import Image from "next/image";
 
 
 interface FeaturedBook {
@@ -229,11 +230,13 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {books.map((book) => (
             <Card key={book._id}>
-              <img
-                src={book.promoImageUrl || "/default-banner.jpg"} // 👈 fallback image if promo not available
-                alt="Book Banner"
-                className="w-full h-48 object-cover rounded-t"
-              />
+             <Image
+  src={book.promoImageUrl || "/default-banner.jpg"}
+  alt="Book Banner"
+  width={400}
+  height={200}
+  className="w-full h-48 object-cover rounded-t"
+/>
               <CardContent>
                 <h3 className="text-lg font-bold mt-2">{book.title}</h3>
                 <p className="text-sm text-muted-foreground">{book.author}</p>

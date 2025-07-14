@@ -92,12 +92,14 @@ export default function ContactPage() {
     setTimeout(() => setIsSubmitted(false), 5000)
   }
 
-  const handleChange = (e: { target: { name: any; value: any } }) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
-  }
+  const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+) => {
+  setFormData({
+    ...formData,
+    [e.target.name]: e.target.value,
+  });
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">

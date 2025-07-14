@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['www.google.com'],
+    domains: ['https://frontend-ne9r1gonc-muntaha-fatimas-projects.vercel.app'],
   },
 
 
