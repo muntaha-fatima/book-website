@@ -374,7 +374,7 @@ export default function HomePage() {
                 className="relative overflow-hidden rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300 group"
               >
                 {book.promoImageUrl ? (
-                  <Image
+                  <img
                     src={book.promoImageUrl}
                     alt={book.title}
                     className="w-full h-64 object-cover object-center"
