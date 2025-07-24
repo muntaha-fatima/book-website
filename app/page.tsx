@@ -387,11 +387,13 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-black bg-opacity-30 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   <p className="text-white text-sm font-semibold truncate">{book.title}</p>
                 </div>
+                
               </div>
             ))}
           </section>
         )}
       </section>
+      
 
       {/* Styles */}
       <style jsx>{` @import url('https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Amiri:wght@400;700&display=swap');
