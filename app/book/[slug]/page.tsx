@@ -643,7 +643,7 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Search, BookOpen, Book, Heart, GraduationCap, Filter, X, Eye, ShoppingCart, Star, Share2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
+
 
 interface Book {
   _id?: string;
