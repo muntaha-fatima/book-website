@@ -183,70 +183,283 @@
 //   )
 // }"
 // 
-
+// components/home-page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
+import {
+  Loader2,
+  TriangleAlert,
+  BookOpen,
+  
+} from "lucide-react";
 
-import { Card, CardContent, } from "@/components/ui/card";
 
+// Assuming you have this Tilt component installed (e.g. react-tilt or react-parallax-tilt)
 
 
 interface FeaturedBook {
   _id?: string;
   title: string;
   author: string;
- 
   promoImageUrl: string;
   isFeatured: boolean;
+  description?: string;
 }
 
-export default function HomePage() {
- 
- const [books, setBooks] = useState<FeaturedBook[]>([]);
+const bannerImages = [
+  {
+    videoUrl: "/banner-video1.mp4",
+    imageUrl: "/images/images (2).jfif",
+    alt: "Islamic books showcase",
+    title: "Unveil Sacred Knowledge",
+    titleAr: "اكشف عن المعرفة المقدسة",
+    subtitle: "Curated Islamic books to inspire your journey",
+    subtitleAr: "كتب إسلامية مختارة لإلهام رحلتك",
+    category: "All",
+  },
+  {
+    videoUrl: "/banner-video2.mp4",
+    imageUrl: "/images/images (1).jfif",
+    alt: "Hadith and Tafseer collection",
+    title: "Illuminate Your Path",
+    titleAr: "أنر طريقك",
+    subtitle: "Dive into Hadith and Tafseer",
+    subtitleAr: "انغمس في الحديث والتفسير",
+    category: "Hadith",
+  },
+  {
+    videoUrl: "/banner-video3.mp4",
+    imageUrl: "/images/images (3).jfif",
+    alt: "Fiqh and Aqeedah books",
+    title: "Strengthen Your Faith",
+    titleAr: "قوّي إيمانك",
+    subtitle: "Explore Fiqh and Aqeedah",
+    subtitleAr: "استكشف الفقه والعقيدة",
+    category: "Fiqh",
+  },
+];
 
- useEffect(() => {
-  const fetchBooks = async () => {
-    try {
-      const res = await fetch("https://frontend-rho-jet-76.vercel.app/api/booklibrary?featured=true");
-      const data = await res.json();
-      if (Array.isArray(data)) {
-        setBooks(data);
-      } else {
-        console.error("⚠️ Invalid API response:", data);
+export default function HomePage() {
+  const [books, setBooks] = useState<FeaturedBook[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [current, setCurrent] = useState(0);
+
+
+  // Fetch books
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const apiUrl =
+          "https://frontend-rho-jet-76.vercel.app/api/booklibrary?featured=true";
+        const res = await fetch(apiUrl, { cache: "no-store" });
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.message || `HTTP error! status: ${res.status}`);
+        if (Array.isArray(data)) setBooks(data);
+        else {
+          setBooks([]);
+          setError("Invalid data received.");
+        }
+      } catch (err: any) {
         setBooks([]);
+        setError(err.message || "Failed to fetch books.");
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error("❌ Fetch error:", err);
-      setBooks([]);
-    }
-  };
-  fetchBooks();
-}, []);
+    };
+    fetchBooks();
+  }, []);
+
+   
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % bannerImages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50">
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {books.map((book) => (
-            <Card key={book._id}>
-    {book.promoImageUrl && (
-                          <img
-                            src={book.promoImageUrl}
-                            alt={book.title}
-                            className="w-[280px] h-[200px] object-cover rounded-md mb-4"
-                          />
-                        )}
-              <CardContent>
-                <h3 className="text-lg font-bold mt-2">{book.title}</h3>
-                <p className="text-sm text-muted-foreground">{book.author}</p>
+    <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white text-gray-800">
+  <div className="relative w-full h-[75vh] overflow-hidden mt-8 rounded-3xl shadow-2xl border border-gray-200">
+    {bannerImages.map((img, index) => (
+      <div
+        key={index}
+        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+          index === current ? "opacity-100 z-10" : "opacity-0 z-0"
+        }`}
+      >
+        {/* Background Image */}
+        <img
+          src={img.imageUrl}
+          alt={img.alt}
+          className="w-full h-full object-cover object-center brightness-90 contrast-110"
+        />
 
-               
-              </CardContent>
-            </Card>
-          ))}
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent z-10" />
+
+        {/* Text Content */}
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
+          <h1 className="text-white text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight animate-fade-in-up drop-shadow-2xl">
+            Timeless Islamic Wisdom
+          </h1>
+          <h2
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mt-3 drop-shadow-md animate-fade-in-up"
+            dir="rtl"
+          >
+            الحكمة الإسلامية الخالدة
+          </h2>
+          <p className="mt-4 text-lg sm:text-xl max-w-2xl font-medium animate-fade-in-up text-white/90">
+            Curated books to inspire faith and knowledge
+          </p>
+          <p
+            className="text-lg sm:text-xl mt-2 max-w-2xl font-medium animate-fade-in-up text-white/80"
+            dir="rtl"
+          >
+            كتب مختارة لإلهام الإيمان والمعرفة
+          </p>
+
+          {/* CTA Button */}
+         
         </div>
       </div>
+    ))}
+</div>
+    
+      {/* Books Section */}
+      <section
+        id="books-section"
+        className="container mx-auto px-4 py-12 w-full max-w-7xl"
+      >
+        {/* Loading */}
+        {loading && (
+          <div className="flex flex-col items-center justify-center min-h-[40vh] text-gray-600">
+            <Loader2 className="h-10 w-10 animate-spin text-teal-600" />
+            <p className="mt-4 font-medium">Loading books...</p>
+          </div>
+        )}
+
+        {/* Error */}
+        {error && (
+          <div className="flex flex-col items-center justify-center min-h-[40vh] text-red-600">
+            <TriangleAlert className="h-10 w-10" />
+            <p className="mt-4 text-lg">Something went wrong</p>
+            <p className="text-sm text-red-400">{error}</p>
+          </div>
+        )}
+
+        {/* No Books */}
+        {!loading && !error && books.length === 0 && (
+          <div className="flex flex-col items-center justify-center min-h-[40vh] text-gray-600">
+            <p className="text-lg font-medium">No featured books available</p>
+            <p className="text-sm text-gray-500">Check back later!</p>
+          </div>
+        )}
+
+        {/* Books Grid */}
+        {!loading && !error && books.length > 0 && (
+          <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            {books.map((book) => (
+              <div
+                key={book._id}
+                className="relative overflow-hidden rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300 group"
+              >
+                {book.promoImageUrl ? (
+                  <img
+                    src={book.promoImageUrl}
+                    alt={book.title}
+                    className="w-full h-64 object-cover object-center"
+                  />
+                ) : (
+                  <div className="w-full h-64 bg-gray-200 flex items-center justify-center text-gray-500">
+                    <BookOpen className="w-16 h-16" />
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-black bg-opacity-30 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <p className="text-white text-sm font-semibold truncate">{book.title}</p>
+                </div>
+              </div>
+            ))}
+          </section>
+        )}
+      </section>
+
+      {/* Styles */}
+      <style jsx>{` @import url('https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Amiri:wght@400;700&display=swap');
+        .english-text {
+          font-family: 'Inter', Italic;
+          color: #F9E9;
+        }
+        .arabic-text {
+          font-family: 'Amiri', serif;
+          line-height: 2;
+             color: #1E293B;
+        }
+        .shadow-3xl {
+          box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+        .animate-fade-scale {
+          animation: fade-scale 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .animate-fade-scale-delayed {
+          animation: fade-scale 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+        }
+        .animate-fade-in-up {
+          animation: fade-in-up 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+        }
+        .animate-fade-in-up-delayed {
+          animation: fade-in-up 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.7s forwards;
+        }
+        .animate-glow-pulse {
+          animation: glow-pulse 3s ease-in-out infinite;
+        }
+        @keyframes fade-scale {
+          from {
+            opacity: 0;
+            transform: scale(0.95) translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
+        @keyframes fade-in-up {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes glow-pulse {
+          0%, 100% {
+            transform: scale(1);
+            box-shadow: 0 10px 20px rgba(183, 110, 121, 0.4);
+          }
+          50% {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(183, 110, 121, 0.6);
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .animate-fade-scale,
+          .animate-fade-scale-delayed,
+          .animate-fade-in-up,
+          .animate-fade-in-up-delayed,
+          .animate-glow-pulse {
+            animation: none;
+            transform: none;
+            opacity: 1;
+          }
+        }
+      `}</style>
     </div>
+  
   );
 }

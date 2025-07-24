@@ -1,10 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    domains: ['https://frontend-ne9r1gonc-muntaha-fatimas-projects.vercel.app'],
-  },
+ domains: [
+      "frontend-rho-jet-76.vercel.app",
+      "localhost"
+    ],
+  }
 
-
-};
 
 export default nextConfig;

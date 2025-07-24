@@ -1,99 +1,91 @@
+// components/Navbar.tsx
 "use client"
 
-import { useState } from "react"
-import { BookOpen, Menu, X, Home, Library, Mail,  } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useState } from "react"
+import { Menu, X } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
-export function Navigation() {
+const navLinks = [
+  { name: "Home", href: "/" },
+  { name: "Books", href: "/book/slug" },
+  
+  { name: "About", href: "/about" },
+  { name: "Contact", href: "/contact" },
+]
+
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
-  const pathname = usePathname()
 
-  const navItems = [
-    { href: "/", label: "Home", icon: Home },
-    { href: "/book/slug", label: "bookLibrary",  icon: Library },
-    { href: "/contact", label: "Contact", labelAr: "", icon: Mail },
-  //   { href: "/admin", label: "Admin", labelAr: "ایڈمن", icon: Settings },
-  // ]
-  ]
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-white/20 shadow-xl">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="relative">
-              <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <BookOpen className="w-6 h-6 text-white" />
-              </div>
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-               ISLAMIC LIBRARY
-              </h1>
-              <p className="text-sm text-slate-600">Islamic Library</p>
-            </div>
-          </Link>
+    <header className="sticky top-0 z-50 bg-white border-b shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+         <div className="flex items-center space-x-2">
+<div className="flex items-center space-x-3">
+ <div className="flex items-center gap-3">
+  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-purple-800 text-white flex items-center justify-center text-xl shadow-xl hover:scale-105 transition duration-300">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-7 w-7">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6V4m0 2a9 9 0 00-9 9v5h18v-5a9 9 0 00-9-9zm0 0v13" />
+    </svg>
+  </div>
+  <h1 className="text-2xl font-bold text-indigo-300">Noor-e-Kitab</h1>
+</div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => {
-              const IconComponent = item.icon
-              const isActive = pathname === item.href
-              return (
-                <Link key={item.href} href={item.href}>
-                  <Button
-                    variant="ghost"
-                    className={`flex items-center space-x-2 px-4 py-2 rounded-xl transition-all duration-300 ${
-                      isActive
-                        ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg"
-                        : "hover:bg-emerald-50 text-slate-700"
-                    }`}
-                  >
-                    <IconComponent className="w-4 h-4" />
-                    <span className="font-medium">{item.label}</span>
-                    <span className="text-xs opacity-70">({item.labelAr})</span>
-                  </Button>
-                </Link>
-              )
-            })}
-          </div>
 
-          {/* Mobile Menu Button */}
-          <Button variant="ghost" size="sm" className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </Button>
+
+  </div>
+  <div>
+   
+  </div>
+</div>
+
+
+
+        <div className="absolute left-1/2 transform -translate-x-1/2 hidden md:flex space-x-8">
+  {navLinks.map(link => (
+    <Link
+      key={link.name}
+      href={link.href}
+      className="text-gray-700 hover:text-purple-600 font-medium transition"
+    >
+      {link.name}
+    </Link>
+  ))}
+</div>
+
+
+        
+          {/* Mobile: Menu Toggle */}
+          <button
+            className="md:hidden text-gray-700"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden py-4 border-t border-slate-200">
-            <div className="flex flex-col space-y-2">
-              {navItems.map((item) => {
-                const IconComponent = item.icon
-                const isActive = pathname === item.href
-                return (
-                  <Link key={item.href} href={item.href} onClick={() => setIsOpen(false)}>
-                    <Button
-                      variant="ghost"
-                      className={`w-full justify-start space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${
-                        isActive
-                          ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white"
-                          : "hover:bg-emerald-50 text-slate-700"
-                      }`}
-                    >
-                      <IconComponent className="w-5 h-5" />
-                      <span className="font-medium">{item.label}</span>
-                      <span className="text-sm opacity-70">({item.labelAr})</span>
-                    </Button>
-                  </Link>
-                )
-              })}
-            </div>
-          </div>
-        )}
       </div>
-    </nav>
+
+      {/* Mobile: Dropdown */}
+      {isOpen && (
+        <div className="md:hidden bg-white border-t shadow-sm">
+          <div className="px-4 py-4 space-y-3">
+            {navLinks.map(link => (
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={() => setIsOpen(false)}
+                className="block text-gray-800 hover:text-blue-600 font-medium py-1 transition"
+              >
+                {link.name}
+              </Link>
+            ))}
+            <hr />
+           
+          </div>
+        </div>
+      )}
+    </header>
+  
   )
 }
