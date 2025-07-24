@@ -193,7 +193,7 @@ import {
   BookOpen,
   
 } from "lucide-react";
-import Image from "next/image";
+
 
 
 // Assuming you have this Tilt component installed (e.g. react-tilt or react-parallax-tilt)
