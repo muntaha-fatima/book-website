@@ -298,7 +298,7 @@ export default function HomePage() {
         }`}
       >
         {/* Background Image */}
-        <Image
+        <img
           src={img.imageUrl}
           alt={img.alt}
           className="w-full h-full object-cover object-center brightness-90 contrast-110"
