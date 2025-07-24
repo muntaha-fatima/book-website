@@ -265,10 +265,14 @@ export default function HomePage() {
           setBooks([]);
           setError("Invalid data received.");
         }
-      } catch (err: any) {
-        setBooks([]);
-        setError(err.message || "Failed to fetch books.");
-      } finally {
+     } catch (err: unknown) {
+  if (err instanceof Error) {
+    console.error(err.message);
+  } else {
+    console.error("An unknown error occurred.");
+  }
+}
+ finally {
         setLoading(false);
       }
     };
