@@ -318,7 +318,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { motion } from "framer-motion";
-import { Book, Leaf } from "lucide-react";
+
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -349,7 +349,7 @@ export default function ContactPage() {
     >
       <div className="text-center mb-10">
         <h1 className="text-4xl font-bold mb-2">📩 Contact Us</h1>
-        <p className="text-muted-foreground">We'd love to hear from you.</p>
+        <p className="text-muted-foreground">We&apos;d love to hear from you.</p>
       </div>
       
 

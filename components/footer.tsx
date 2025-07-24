@@ -37,7 +37,7 @@ return(
 
     {/* Du'a Section */}
     <div>
-      <h3 className="text-white font-semibold mb-2">Make Du'a</h3>
+      <h3 className="text-white font-semibold mb-2">Make Du&apos;a</h3>
       <p className="text-sm">May Allah ﷻ make this effort a source of Sadaqah Jariyah. Ameen.</p>
     </div>
   </div>

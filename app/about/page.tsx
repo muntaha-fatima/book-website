@@ -40,7 +40,7 @@ export default function About() {
           transition={{ delay: 0.4, duration: 1 }}
           className="text-lg sm:text-xl text-gray-700 font-medium leading-relaxed"
         >
-          Noor-e-Kitab is not just a digital library; it's a movement to bring Islamic knowledge, wisdom, and light to every home. 📚✨
+          Noor-e-Kitab is not just a digital library; it&apos;s a movement to bring Islamic knowledge, wisdom, and light to every home. 📚✨
           Our mission is to bridge tradition with technology, providing access to timeless books, tafsir, Hadith collections, and much more for everyone.
         </motion.p>
 
@@ -144,7 +144,7 @@ export default function About() {
           transition={{ delay: 0.6, duration: 1 }}
           className="mt-6 text-base sm:text-lg text-gray-600 leading-relaxed"
         >
-          Whether you're a student of knowledge, a seeker of truth, or someone rediscovering faith — Noor-e-Kitab is here to guide, support, and illuminate your path. From rare Islamic manuscripts to easy-to-read translations, we’re building a platform that’s accessible, authentic, and always evolving. 🌙📖
+          Whether you&apos;re a student of knowledge, a seeker of truth, or someone rediscovering faith — Noor-e-Kitab is here to guide, support, and illuminate your path. From rare Islamic manuscripts to easy-to-read translations, we&apos;re building a platform that&apos;s accessible, authentic, and always evolving. 🌙📖
         </motion.p>
 
         {/* Features with Icons */}
@@ -167,7 +167,7 @@ export default function About() {
           transition={{ delay: 0.8, duration: 1 }}
           className="mt-10 text-gray-700"
         >
-          Let’s revive the golden age of Islamic scholarship together — one page at a time. Join us in spreading the Noor (light) of knowledge. 🌟
+          Let&apos;s revive the golden age of Islamic scholarship together — one page at a time. Join us in spreading the Noor (light) of knowledge. 🌟
         </motion.p>
       </div>
     </section>

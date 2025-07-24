@@ -193,6 +193,7 @@ import {
   BookOpen,
   
 } from "lucide-react";
+import Image from "next/image";
 
 
 // Assuming you have this Tilt component installed (e.g. react-tilt or react-parallax-tilt)
@@ -293,7 +294,7 @@ export default function HomePage() {
         }`}
       >
         {/* Background Image */}
-        <img
+        <Image
           src={img.imageUrl}
           alt={img.alt}
           className="w-full h-full object-cover object-center brightness-90 contrast-110"
@@ -369,7 +370,7 @@ export default function HomePage() {
                 className="relative overflow-hidden rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300 group"
               >
                 {book.promoImageUrl ? (
-                  <img
+                  <Image
                     src={book.promoImageUrl}
                     alt={book.title}
                     className="w-full h-64 object-cover object-center"
