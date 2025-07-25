@@ -184,6 +184,8 @@
 // }"
 // 
 // components/home-page.tsx
+
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -368,28 +370,27 @@ export default function HomePage() {
         {/* Books Grid */}
         {!loading && !error && books.length > 0 && (
           <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            {books.map((book) => (
-              <div
-                key={book._id}
-                className="relative overflow-hidden rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300 group"
-              >
-                {book.promoImageUrl ? (
-                  <img
-                    src={book.promoImageUrl}
-                    alt={book.title}
-                    className="w-full h-64 object-cover object-center"
-                  />
-                ) : (
-                  <div className="w-full h-64 bg-gray-200 flex items-center justify-center text-gray-500">
-                    <BookOpen className="w-16 h-16" />
-                  </div>
-                )}
-                <div className="absolute inset-0 bg-black bg-opacity-30 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <p className="text-white text-sm font-semibold truncate">{book.title}</p>
-                </div>
-                
-              </div>
-            ))}
+            {books
+  .filter(book => book.title && book.promoImageUrl) // 👈 Filter only valid books
+  .map((book) => (
+    <div key={book._id} className="relative overflow-hidden rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300 group">
+      {book.promoImageUrl ? (
+        <img
+          src={book.promoImageUrl}
+          alt={book.title}
+          className="w-full h-64 object-cover object-center"
+        />
+      ) : (
+        <div className="w-full h-64 bg-gray-200 flex items-center justify-center text-gray-500">
+          <BookOpen className="w-16 h-16" />
+        </div>
+      )}
+      <div className="absolute inset-0 bg-black bg-opacity-30 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <p className="text-white text-sm font-semibold truncate">{book.title}</p>
+      </div>
+    </div>
+))}
+
           </section>
         )}
       </section>
