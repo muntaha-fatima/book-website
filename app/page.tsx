@@ -196,7 +196,7 @@
 
 import { useEffect, useState } from "react"
 import { Loader2, TriangleAlert } from "lucide-react"
-import Image from "next/image"
+
 
 interface PromoItem {
   _id?: string // Added to match backend Promo interface
@@ -316,7 +316,7 @@ export default function HomePage() {
             }`}
           >
              {/* Background Image */}
-        <Image
+        <img
           src={img.imageUrl}
           alt={img.alt}
           className="w-full h-full object-cover object-center brightness-90 contrast-110"
