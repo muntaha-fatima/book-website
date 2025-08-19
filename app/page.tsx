@@ -186,28 +186,23 @@
 // components/home-page.tsx
 
 
-"use client";
-
-import { useEffect, useState } from "react";
-import {
-  Loader2,
-  TriangleAlert,
-  BookOpen,
-  
-} from "lucide-react";
 
 
 
-// Assuming you have this Tilt component installed (e.g. react-tilt or react-parallax-tilt)
+// import { useEffect, useState } from "react"
+// import { Loader2, TriangleAlert } from "lucide-react"
 
+"use client"
 
-interface FeaturedBook {
-  _id?: string;
-  title: string;
-  author: string;
-  promoImageUrl: string;
-  isFeatured: boolean;
-  description?: string;
+import { useEffect, useState } from "react"
+import { Loader2, TriangleAlert } from "lucide-react"
+
+interface PromoItem {
+  _id?: string // Added to match backend Promo interface
+  promoImageUrl: string
+  isActive: boolean // Added to match backend Promo interface
+  title?: string // Added to match backend Promo interface
+  contentType: "image" // Added for clarity, though filtered by API
 }
 
 const bannerImages = [
@@ -241,233 +236,134 @@ const bannerImages = [
     subtitleAr: "استكشف الفقه والعقيدة",
     category: "Fiqh",
   },
-];
+]
 
 export default function HomePage() {
-  const [books, setBooks] = useState<FeaturedBook[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [current, setCurrent] = useState(0);
+  const [promoImages, setPromoImages] = useState<PromoItem[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [current, setCurrent] = useState(0)
 
-
-  // Fetch books
   useEffect(() => {
-    const fetchBooks = async () => {
+    const fetchPromo = async () => {
       try {
-        setLoading(true);
-        setError(null);
-        const apiUrl =
-          "https://frontend-rho-jet-76.vercel.app/api/booklibrary?featured=true";
-        const res = await fetch(apiUrl, { cache: "no-store" });
-        const data = await res.json();
+        // Ensure the correct API endpoint is used for promo images
+        console.log(
+          "📡 Fetching promo images from https://frontend-rho-jet-76.vercel.app/api/booklibrary?purpose=promo",
+        )
+        const response = await fetch("https://frontend-rho-jet-76.vercel.app/api/booklibrary?purpose=promo")
 
-        if (!res.ok) throw new Error(data.message || `HTTP error! status: ${res.status}`);
-        if (Array.isArray(data)) setBooks(data);
-        else {
-          setBooks([]);
-          setError("Invalid data received.");
+        if (!response.ok) {
+          const errorData = await response.json()
+          throw new Error(errorData.message || "Failed to fetch promo images")
         }
-     } catch (err: unknown) {
-  if (err instanceof Error) {
-    console.error(err.message);
-  } else {
-    console.error("An unknown error occurred.");
-  }
-}
- finally {
-        setLoading(false);
-      }
-    };
-    fetchBooks();
-  }, []);
 
-   
+        const data = await response.json()
+        console.log("✅ Raw promo data fetched from API:", data)
+
+        // Assuming backend now correctly filters, no need for client-side filter here
+        const cleaned = Array.isArray(data)
+          ? data.map((item: any) => ({
+              ...item,
+              promoImageUrl: item.promoImageUrl?.trim().replace(/^"|"$/g, ""),
+            }))
+          : []
+
+        setPromoImages(cleaned)
+        console.log("✅ Cleaned promo images for display:", cleaned)
+      } catch (error: any) {
+        console.error("Promo fetch error:", error)
+        setError(error.message || "Failed to load promos")
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchPromo()
+  }, [])
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % bannerImages.length);
     }, 4000);
     return () => clearInterval(interval);
   }, []);
+  if (loading)
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[40vh] text-gray-600">
+        <Loader2 className="h-10 w-10 animate-spin text-teal-600" />
+        <p className="mt-4 font-medium">Loading promos...</p>
+      </div>
+    )
+
+  if (error)
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[40vh] text-red-600">
+        <TriangleAlert className="h-10 w-10" />
+        <p className="mt-4 text-lg">Something went wrong</p>
+        <p className="text-sm text-red-400">{error}</p>
+      </div>
+    )
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white text-gray-800">
-  <div className="relative w-full h-[75vh] overflow-hidden mt-8 rounded-3xl shadow-2xl border border-gray-200">
-    {bannerImages.map((img, index) => (
-      <div
-        key={index}
-        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-          index === current ? "opacity-100 z-10" : "opacity-0 z-0"
-        }`}
-      >
-        {/* Background Image */}
+      <div className="relative w-full h-[75vh] overflow-hidden mt-8 rounded-3xl shadow-2xl border border-gray-200">
+        {bannerImages.map((img, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              index === current ? "opacity-100 z-10" : "opacity-0 z-0"
+            }`}
+          >
+             {/* Background Image */}
         <img
           src={img.imageUrl}
           alt={img.alt}
           className="w-full h-full object-cover object-center brightness-90 contrast-110"
         />
-
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent z-10" />
-
-        {/* Text Content */}
-        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
-          <h1 className="text-white text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight animate-fade-in-up drop-shadow-2xl">
-            Timeless Islamic Wisdom
-          </h1>
-          <h2
-            className="text-3xl sm:text-4xl md:text-5xl font-bold mt-3 drop-shadow-md animate-fade-in-up"
-            dir="rtl"
-          >
-            الحكمة الإسلامية الخالدة
-          </h2>
-          <p className="mt-4 text-lg sm:text-xl max-w-2xl font-medium animate-fade-in-up text-white/90">
-            Curated books to inspire faith and knowledge
-          </p>
-          <p
-            className="text-lg sm:text-xl mt-2 max-w-2xl font-medium animate-fade-in-up text-white/80"
-            dir="rtl"
-          >
-            كتب مختارة لإلهام الإيمان والمعرفة
-          </p>
-
-          {/* CTA Button */}
-         
-        </div>
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent z-10" />
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
+              <h1 className="text-white text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight animate-fade-in-up drop-shadow-2xl">
+                Timeless Islamic Wisdom
+              </h1>
+              <h2
+                className="text-3xl sm:text-4xl md:text-5xl font-bold mt-3 drop-shadow-md animate-fade-in-up"
+                dir="rtl"
+              >
+                الحكمة الإسلامية الخالدة
+              </h2>
+              <p className="mt-4 text-lg sm:text-xl max-w-2xl font-medium animate-fade-in-up text-white/90">
+                Curated books to inspire faith and knowledge
+              </p>
+              <p className="text-lg sm:text-xl mt-2 max-w-2xl font-medium animate-fade-in-up text-white/80" dir="rtl">
+                كتب مختارة لإلهام الإيمان والمعرفة
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
-    ))}
-</div>
-    
-      {/* Books Section */}
-      <section
-        id="books-section"
-        className="container mx-auto px-4 py-12 w-full max-w-7xl"
-      >
-        {/* Loading */}
-        {loading && (
+      <section className="container mx-auto px-4 py-12 w-full max-w-7xl">
+        {!loading && !error && promoImages.length === 0 && (
           <div className="flex flex-col items-center justify-center min-h-[40vh] text-gray-600">
-            <Loader2 className="h-10 w-10 animate-spin text-teal-600" />
-            <p className="mt-4 font-medium">Loading books...</p>
-          </div>
-        )}
-
-        {/* Error */}
-        {error && (
-          <div className="flex flex-col items-center justify-center min-h-[40vh] text-red-600">
-            <TriangleAlert className="h-10 w-10" />
-            <p className="mt-4 text-lg">Something went wrong</p>
-            <p className="text-sm text-red-400">{error}</p>
-          </div>
-        )}
-
-        {/* No Books */}
-        {!loading && !error && books.length === 0 && (
-          <div className="flex flex-col items-center justify-center min-h-[40vh] text-gray-600">
-            <p className="text-lg font-medium">No featured books available</p>
+            <p className="text-lg font-medium">No promo images available</p>
             <p className="text-sm text-gray-500">Check back later!</p>
           </div>
         )}
-
-        {/* Books Grid */}
-        {!loading && !error && books.length > 0 && (
+        {!loading && !error && promoImages.length > 0 && (
           <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            {books
-  .filter(book => book.title && book.promoImageUrl) // 👈 Filter only valid books
-  .map((book) => (
-    <div key={book._id} className="relative overflow-hidden rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300 group">
-      {book.promoImageUrl ? (
-        <img
-          src={book.promoImageUrl}
-          alt={book.title}
-          className="w-full h-64 object-cover object-center"
-        />
-      ) : (
-        <div className="w-full h-64 bg-gray-200 flex items-center justify-center text-gray-500">
-          <BookOpen className="w-16 h-16" />
-        </div>
-      )}
-      <div className="absolute inset-0 bg-black bg-opacity-30 flex items-end p-2 opacity-0 group-hover:opacity-100 transition-opacity">
-        <p className="text-white text-sm font-semibold truncate">{book.title}</p>
-      </div>
-    </div>
-))}
-
+            {promoImages.map(
+              (item) =>
+                (
+                  <img
+                  key={item._id} 
+                  src={item.promoImageUrl }
+                  alt={item.title || `Promo ${item._id}`}
+                  className="w-full h-auto rounded shadow"
+                />
+                ),
+            )}
           </section>
         )}
       </section>
-      
-
-      {/* Styles */}
-      <style jsx>{` @import url('https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Amiri:wght@400;700&display=swap');
-        .english-text {
-          font-family: 'Inter', Italic;
-          color: #F9E9;
-        }
-        .arabic-text {
-          font-family: 'Amiri', serif;
-          line-height: 2;
-             color: #1E293B;
-        }
-        .shadow-3xl {
-          box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
-        }
-        .animate-fade-scale {
-          animation: fade-scale 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-        .animate-fade-scale-delayed {
-          animation: fade-scale 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
-        }
-        .animate-fade-in-up {
-          animation: fade-in-up 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
-        }
-        .animate-fade-in-up-delayed {
-          animation: fade-in-up 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.7s forwards;
-        }
-        .animate-glow-pulse {
-          animation: glow-pulse 3s ease-in-out infinite;
-        }
-        @keyframes fade-scale {
-          from {
-            opacity: 0;
-            transform: scale(0.95) translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-          }
-        }
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        @keyframes glow-pulse {
-          0%, 100% {
-            transform: scale(1);
-            box-shadow: 0 10px 20px rgba(183, 110, 121, 0.4);
-          }
-          50% {
-            transform: scale(1.05);
-            box-shadow: 0 15px 30px rgba(183, 110, 121, 0.6);
-          }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .animate-fade-scale,
-          .animate-fade-scale-delayed,
-          .animate-fade-in-up,
-          .animate-fade-in-up-delayed,
-          .animate-glow-pulse {
-            animation: none;
-            transform: none;
-            opacity: 1;
-          }
-        }
-      `}</style>
     </div>
-  
-  );
+  )
 }
