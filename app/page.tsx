@@ -244,50 +244,49 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [current, setCurrent] = useState(0)
+// 🔹 Function to fetch promo
+const fetchPromos = async () => {
+  const url =
+    "https://frontend-rho-jet-76.vercel.app/api/promos";
+  const options = { method: "GET", headers: { accept: "application/json" } };
 
+  try {
+    setLoading(true);
+    setError(null);
+
+    const response = await fetch(url, options);
+    const result = await response.json();
+    console.log("Promo Data:", result);
+
+    // ✅ Data array nikaalo
+    const promos = Array.isArray(result)
+      ? result
+      : result.data || [];
+
+    setPromoImages(promos);
+  } catch (error: any) {
+    console.error("Error fetching promo:", error);
+    setError(error.message || "Failed to load promos");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+  // 🔹 useEffect me call
   useEffect(() => {
-    const fetchPromo = async () => {
-      try {
-        // Ensure the correct API endpoint is used for promo images
-        console.log(
-          "📡 Fetching promo images from https://frontend-rho-jet-76.vercel.app/api/booklibrary?purpose=promo",
-        )
-        const response = await fetch("https://frontend-rho-jet-76.vercel.app/api/booklibrary?purpose=promo")
+    fetchPromos();
+  }, []);
 
-        if (!response.ok) {
-          const errorData = await response.json()
-          throw new Error(errorData.message || "Failed to fetch promo images")
-        }
 
-        const data = await response.json()
-        console.log("✅ Raw promo data fetched from API:", data)
-
-        // Assuming backend now correctly filters, no need for client-side filter here
-        const cleaned = Array.isArray(data)
-          ? data.map((item: any) => ({
-              ...item,
-              promoImageUrl: item.promoImageUrl?.trim().replace(/^"|"$/g, ""),
-            }))
-          : []
-
-        setPromoImages(cleaned)
-        console.log("✅ Cleaned promo images for display:", cleaned)
-      } catch (error: any) {
-        console.error("Promo fetch error:", error)
-        setError(error.message || "Failed to load promos")
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchPromo()
-  }, [])
-  
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % bannerImages.length);
     }, 4000);
     return () => clearInterval(interval);
   }, []);
+
+  
   if (loading)
     return (
       <div className="flex flex-col items-center justify-center min-h-[40vh] text-gray-600">
@@ -351,17 +350,15 @@ export default function HomePage() {
         )}
         {!loading && !error && promoImages.length > 0 && (
           <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            {promoImages.map(
-              (item) =>
-                (
-                  <img
-                  key={item._id} 
-                  src={item.promoImageUrl }
-                  alt={item.title || `Promo ${item._id}`}
-                  className="w-full h-auto rounded shadow"
-                />
-                ),
-            )}
+            {promoImages.map((item) => (
+  <img
+    key={item._id}
+    src={item.promoImageUrl}
+    alt={item.title || `Promo ${item._id}`}
+    className="w-full h-auto rounded shadow"
+  />
+))}
+
           </section>
         )}
       </section>
