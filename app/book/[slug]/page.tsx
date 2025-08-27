@@ -665,6 +665,7 @@ import {
   Share2,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
 
 interface Book {
   _id?: string;
@@ -1088,9 +1089,11 @@ export default function BooksPage() {
 
                   <CardContent className="p-6 pt-0">
                     {book.imageUrl ? (
-                      <img
+                      <Image
                         src={book.imageUrl}
                         alt={`Cover of ${book.title || "Untitled"} by ${book.author || "Unknown"}`}
+                        width={500}
+                        height={500}
                         className="w-full h-72 object-contain rounded-2xl mb-4 bg-cream-50 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-2"
                         loading="lazy"
                       />
