@@ -665,7 +665,7 @@ import {
   Share2,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
+
 
 interface Book {
   _id?: string;
@@ -1089,19 +1089,18 @@ export default function BooksPage() {
 
                   <CardContent className="p-6 pt-0">
                     {book.imageUrl ? (
-                      <Image
-                        src={book.imageUrl}
-                        alt={`Cover of ${book.title || "Untitled"} by ${book.author || "Unknown"}`}
-                        width={500}
-                        height={500}
-                        className="w-full h-72 object-contain rounded-2xl mb-4 bg-cream-50 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-2"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="w-full h-72 bg-cream-50 rounded-2xl mb-4 flex items-center justify-center">
-                        <BookOpen className="w-20 h-20 text-teal-200" />
-                      </div>
-                    )}
+  <img
+    src={book.imageUrl}
+    alt={`Cover of ${book.title || "Untitled"} by ${book.author || "Unknown"}`}
+    className="w-full h-72 object-contain rounded-2xl mb-4 bg-cream-50"
+    loading="lazy"
+  />
+) : (
+  <div className="w-full h-72 bg-cream-50 rounded-2xl mb-4 flex items-center justify-center">
+    <BookOpen className="w-20 h-20 text-teal-200" />
+  </div>
+)}
+
 
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-1">
@@ -1293,11 +1292,12 @@ export default function BooksPage() {
                 <div className="md:col-span-2">
                   {selectedBook?.imageUrl ? (
                     <img
-                      src={selectedBook.imageUrl}
-                      alt={`Cover of ${selectedBook.title || "Untitled"}`}
-                      className="w-full h-96 object-contain rounded-2xl bg-cream-50 shadow-xl transition-transform duration-300 hover:scale-105"
-                      loading="lazy"
-                    />
+  src={selectedBook.imageUrl}
+  alt={`Cover of ${selectedBook.title || "Untitled"} by ${selectedBook.author || "Unknown"}`}
+  className="w-full h-72 object-contain rounded-2xl mb-4 bg-cream-50 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-2"
+  loading="lazy"
+  onError={(e) => (e.currentTarget.src = "https://via.placeholder.com/150")}
+/>
                   ) : (
                     <div className="w-full h-96 bg-cream-50 rounded-2xl flex items-center justify-center shadow-xl">
                       <BookOpen className="w-24 h-24 text-teal-200" />

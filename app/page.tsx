@@ -197,15 +197,16 @@
 import { useEffect, useState } from "react"
 import { Loader2, TriangleAlert } from "lucide-react"
 
-
+// Interfaces ko theek tarah se define kiya gaya hai
 interface PromoItem {
-  _id?: string // Added to match backend Promo interface
+  _id?: string
   promoImageUrl: string
-  isActive: boolean // Added to match backend Promo interface
-  title?: string // Added to match backend Promo interface
-  contentType: "image" // Added for clarity, though filtered by API
+  isActive: boolean
+  title?: string
+  contentType: "image"
 }
 
+// Ye hardcoded data hai jo aapke banner carousel ke liye hai
 const bannerImages = [
   {
     videoUrl: "/banner-video1.mp4",
@@ -239,54 +240,48 @@ const bannerImages = [
   },
 ]
 
-export default function HomePage() {
+export default function App() {
   const [promoImages, setPromoImages] = useState<PromoItem[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [current, setCurrent] = useState(0)
-// 🔹 Function to fetch promo
-const fetchPromos = async () => {
-  const url =
-    "https://frontend-rho-jet-76.vercel.app/api/promos";
-  const options = { method: "GET", headers: { accept: "application/json" } };
 
-  try {
-    setLoading(true);
-    setError(null);
+  const fetchPromos = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      // Ab hum backend se sara data fetch karenge
+      console.log("📡 Fetching promo images from API");
+      const response = await fetch("https://frontend-rho-jet-76.vercel.app/api/promos");
 
-    const response = await fetch(url, options);
-    const result = await response.json();
-    console.log("Promo Data:", result);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to fetch promos");
+      }
 
-    // ✅ Data array nikaalo
-    const promos = Array.isArray(result)
-      ? result
-      : result.data || [];
+      const { data } = await response.json();
+      console.log("✅ Data fetched from API:", data);
 
-    setPromoImages(promos);
-  } catch (error: any) {
-    console.error("Error fetching promo:", error);
-    setError(error.message || "Failed to load promos");
-  } finally {
-    setLoading(false);
-  }
-};
+      setPromoImages(data);
+    } catch (error: any) {
+      console.error("Promo fetch error:", error);
+      setError(error.message || "Failed to load promos");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-
-  // 🔹 useEffect me call
   useEffect(() => {
     fetchPromos();
   }, []);
 
-
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % bannerImages.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
+      setCurrent((prev) => (prev + 1) % bannerImages.length)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [])
 
-  
   if (loading)
     return (
       <div className="flex flex-col items-center justify-center min-h-[40vh] text-gray-600">
@@ -314,12 +309,11 @@ const fetchPromos = async () => {
               index === current ? "opacity-100 z-10" : "opacity-0 z-0"
             }`}
           >
-             {/* Background Image */}
-        <img
-          src={img.imageUrl}
-          alt={img.alt}
-          className="w-full h-full object-cover object-center brightness-90 contrast-110"
-        />
+            <img
+              src={img.imageUrl}
+              alt={img.alt}
+              className="w-full h-full object-cover object-center brightness-90 contrast-110"
+            />
             <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent z-10" />
             <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
               <h1 className="text-white text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight animate-fade-in-up drop-shadow-2xl">
@@ -351,14 +345,13 @@ const fetchPromos = async () => {
         {!loading && !error && promoImages.length > 0 && (
           <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
             {promoImages.map((item) => (
-  <img
-    key={item._id}
-    src={item.promoImageUrl}
-    alt={item.title || `Promo ${item._id}`}
-    className="w-full h-auto rounded shadow"
-  />
-))}
-
+              <img
+                key={item._id}
+                src={item.promoImageUrl}
+                alt={item.title || `Promo ${item._id}`}
+                className="w-full h-auto rounded shadow"
+              />
+            ))}
           </section>
         )}
       </section>
