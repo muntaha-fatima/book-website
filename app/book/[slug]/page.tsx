@@ -685,12 +685,11 @@ interface Book {
   rating?: number;
   contentType?: string;
 }
-
+// ✅ agar use karna hai
 const handleData = (data: unknown) => {
-  if (typeof data === "object" && data !== null) {
-    console.log(data);
-  }
+  console.log(data);
 };
+handleData({ title: "Test Book" });
 
 
 
@@ -1033,7 +1032,8 @@ export default function BooksPage() {
                 {cart.slice(0, 4).map((item, index) => (
                   <div key={index} className="flex items-center gap-4 py-3 border-b border-teal-100/30">
                     {item.imageUrl ? (
-                      <img src={item.imageUrl} alt={item.title} className="w-14 h-14 object-contain rounded-lg" loading="lazy" />
+                      <Image src={item.imageUrl} alt="" 
+                      width={500} height={500} className="w-14 h-14 object-contain rounded-lg" loading="lazy" />
                     ) : (
                       <BookOpen className="w-8 h-8 text-teal-600" />
                     )}
@@ -1105,7 +1105,8 @@ export default function BooksPage() {
                       <Image
                         src={book.imageUrl}
                         alt={`Cover of ${book.title || "Untitled"} by ${book.author || "Unknown"}`}
-              
+              width={500}
+              height={500}
                         className="w-full h-72 object-contain rounded-2xl mb-4 bg-cream-50 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-2"
                         loading="lazy"
                       />
@@ -1307,6 +1308,8 @@ export default function BooksPage() {
                     <Image
   src={selectedBook.imageUrl}
   alt={`Cover of ${selectedBook.title || "Untitled"} by ${selectedBook.author || "Unknown"}`}
+  width={500}
+  height={500}
   className="w-full h-72 object-contain rounded-2xl mb-4 bg-cream-50 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-2"
   loading="lazy"
   onError={(e) => (e.currentTarget.src = "https://via.placeholder.com/150")}
