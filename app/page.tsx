@@ -263,14 +263,18 @@ export default function App() {
       console.log("✅ Data fetched from API:", data);
 
       setPromoImages(data);
-    } catch (error: any) {
-      console.error("Promo fetch error:", error);
-      setError(error.message || "Failed to load promos");
-    } finally {
-      setLoading(false);
-    }
-  };
-
+ } catch (error: unknown) {
+  if (error instanceof Error) {
+    console.error("Promo fetch error:", error.message);
+    setError(error.message);
+  } else {
+    console.error("Promo fetch error:", error);
+    setError("Failed to load promos");
+  }
+} finally {
+  setLoading(false);
+}
+  }
   useEffect(() => {
     fetchPromos();
   }, []);
