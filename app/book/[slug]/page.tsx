@@ -665,7 +665,7 @@ import {
   Share2,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-
+import Image from "next/image";
 
 
 
@@ -685,6 +685,13 @@ interface Book {
   rating?: number;
   contentType?: string;
 }
+
+const handleData = (data: unknown) => {
+  if (typeof data === "object" && data !== null) {
+    console.log(data);
+  }
+};
+
 
 
 const categories = [
@@ -737,6 +744,7 @@ export default function BooksPage() {
       }
 
       const data = await res.json();
+      
       console.log("Books raw:", data);
 
       // normalize: allow direct array or { data: [...] } shape
@@ -918,9 +926,11 @@ export default function BooksPage() {
                     onKeyDown={(e) => e.key === "Enter" && setSearchTerm(suggestion.title)}
                   >
                     {suggestion.imageUrl ? (
-                      <img
+                      <Image
                         src={suggestion.imageUrl}
                         alt={suggestion.title}
+                        width={500}
+                        height={500}
                         className="w-12 h-12 object-contain rounded-lg border border-teal-100/50 group-hover:scale-110 transition-transform duration-200"
                         loading="lazy"
                       />
