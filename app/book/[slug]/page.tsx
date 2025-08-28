@@ -1102,7 +1102,7 @@ export default function BooksPage() {
 
                   <CardContent className="p-6 pt-0">
                     {book.imageUrl ? (
-                      <img
+                      <Image
                         src={book.imageUrl}
                         alt={`Cover of ${book.title || "Untitled"} by ${book.author || "Unknown"}`}
               
@@ -1304,7 +1304,7 @@ export default function BooksPage() {
               <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
                 <div className="md:col-span-2">
                   {selectedBook?.imageUrl ? (
-                    <img
+                    <Image
   src={selectedBook.imageUrl}
   alt={`Cover of ${selectedBook.title || "Untitled"} by ${selectedBook.author || "Unknown"}`}
   className="w-full h-72 object-contain rounded-2xl mb-4 bg-cream-50 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-2"
