@@ -665,7 +665,6 @@ import {
   Share2,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
 
 
 
@@ -685,11 +684,7 @@ interface Book {
   rating?: number;
   contentType?: string;
 }
-// ✅ agar use karna hai
-const handleData = (data: unknown) => {
-  console.log(data);
-};
-handleData({ title: "Test Book" });
+
 
 
 
@@ -750,11 +745,10 @@ export default function BooksPage() {
       const items = Array.isArray(data) ? data : data?.data ?? [];
 
       // filter for books only
-     const booksOnly = (items as Book[]).filter((item) => item.contentType === "book");
-
+      const booksOnly = (items as any[]).filter((item) => item?.contentType === "book");
 
       setBooks([...booksOnly].reverse());
-    } catch (err: unknown) {
+    } catch (err: any) {
       const message = err instanceof Error ? err.message : "An error occurred";
       setError(message);
       toast.error(message);
@@ -926,11 +920,9 @@ export default function BooksPage() {
                     onKeyDown={(e) => e.key === "Enter" && setSearchTerm(suggestion.title)}
                   >
                     {suggestion.imageUrl ? (
-                      <Image
+                      <img
                         src={suggestion.imageUrl}
                         alt={suggestion.title}
-                        width={500}
-                        height={500}
                         className="w-12 h-12 object-contain rounded-lg border border-teal-100/50 group-hover:scale-110 transition-transform duration-200"
                         loading="lazy"
                       />
@@ -1033,8 +1025,7 @@ export default function BooksPage() {
                 {cart.slice(0, 4).map((item, index) => (
                   <div key={index} className="flex items-center gap-4 py-3 border-b border-teal-100/30">
                     {item.imageUrl ? (
-                      <Image src={item.imageUrl} alt="" 
-                      width={500} height={500} className="w-14 h-14 object-contain rounded-lg" loading="lazy" />
+                      <img src={item.imageUrl} alt={item.title} className="w-14 h-14 object-contain rounded-lg" loading="lazy" />
                     ) : (
                       <BookOpen className="w-8 h-8 text-teal-600" />
                     )}
@@ -1103,11 +1094,10 @@ export default function BooksPage() {
 
                   <CardContent className="p-6 pt-0">
                     {book.imageUrl ? (
-                      <Image
+                      <img
                         src={book.imageUrl}
                         alt={`Cover of ${book.title || "Untitled"} by ${book.author || "Unknown"}`}
-              width={500}
-              height={500}
+              
                         className="w-full h-72 object-contain rounded-2xl mb-4 bg-cream-50 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-2"
                         loading="lazy"
                       />
@@ -1306,11 +1296,9 @@ export default function BooksPage() {
               <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
                 <div className="md:col-span-2">
                   {selectedBook?.imageUrl ? (
-                    <Image
+                    <img
   src={selectedBook.imageUrl}
   alt={`Cover of ${selectedBook.title || "Untitled"} by ${selectedBook.author || "Unknown"}`}
-  width={500}
-  height={500}
   className="w-full h-72 object-contain rounded-2xl mb-4 bg-cream-50 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-2"
   loading="lazy"
   onError={(e) => (e.currentTarget.src = "https://via.placeholder.com/150")}
