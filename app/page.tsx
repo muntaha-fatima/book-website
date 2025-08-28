@@ -196,7 +196,7 @@
 
 import { useEffect, useState } from "react"
 import { Loader2, TriangleAlert } from "lucide-react"
-import Image from "next/image"
+
 
 // Interfaces ko theek tarah se define kiya gaya hai
 interface PromoItem {
@@ -318,7 +318,7 @@ export default function App() {
               index === current ? "opacity-100 z-10" : "opacity-0 z-0"
             }`}
           >
-            <Image
+            <img
               src={img.imageUrl}
               alt={img.alt}
               className="w-full h-full object-cover object-center brightness-90 contrast-110"
@@ -354,11 +354,10 @@ export default function App() {
         {!loading && !error && promoImages.length > 0 && (
           <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
             {promoImages.map((item) => (
-              <Image
+              <img
                 key={item._id}
                 src={item.promoImageUrl}
-                width={500}
-                height={500}
+               
                 alt={item.title || `Promo ${item._id}`}
                 className="w-full h-auto rounded shadow"
               />
