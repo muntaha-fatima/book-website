@@ -745,18 +745,23 @@ export default function BooksPage() {
       const items = Array.isArray(data) ? data : data?.data ?? [];
 
       // filter for books only
-      const booksOnly = (items as any[]).filter((item) => item?.contentType === "book");
+     const booksOnly = (Array.isArray(data) ? data : []).filter(
+      (item: any) => item?.contentType === "book"
+    );
 
       setBooks([...booksOnly].reverse());
-    } catch (err: any) {
-      const message = err instanceof Error ? err.message : "An error occurred";
-      setError(message);
-      toast.error(message);
-      setBooks([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+    } catch (error: unknown) {
+  if (error instanceof Error) {
+    console.error("Promo fetch error:", error.message);
+    setError(error.message);
+  } else {
+    console.error("book fetch error:", error);
+    setError("Failed to load book");
+  }
+} finally {
+  setLoading(false);
+}
+  }
 
   useEffect(() => {
     fetchBooks();
