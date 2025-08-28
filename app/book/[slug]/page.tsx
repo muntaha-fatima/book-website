@@ -741,13 +741,12 @@ export default function BooksPage() {
       
       console.log("Books raw:", data);
 
-      // normalize: allow direct array or { data: [...] } shape
-      const items = Array.isArray(data) ? data : data?.data ?? [];
+      
+const items: Book[] = Array.isArray(data) ? data : data?.data ?? [];
 
-      // filter for books only
-     const booksOnly = (Array.isArray(data) ? data : []).filter(
-      (item: any) => item?.contentType === "book"
-    );
+const booksOnly = items.filter(
+  (item) => item?.contentType === "book"
+);
 
       setBooks([...booksOnly].reverse());
     } catch (error: unknown) {
