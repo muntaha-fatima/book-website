@@ -206,7 +206,11 @@ interface PromoItem {
   title?: string
   contentType: "image"
 }
-
+// ✅ agar use karna hai
+const handleData = (data: unknown) => {
+  console.log(data);
+};
+handleData({ title: "Test promo" });
 // Ye hardcoded data hai jo aapke banner carousel ke liye hai
 const bannerImages = [
   {
@@ -261,15 +265,19 @@ export default function App() {
       }
 
       const { data } = await response.json();
+      setPromoImages(data); // 👈 ab yahan use ho gaya
       console.log("✅ Data fetched from API:", data);
 
-      setPromoImages(data);
-    } catch (error: any) {
-      console.error("Promo fetch error:", error);
-      setError(error.message || "Failed to load promos");
-    } finally {
-      setLoading(false);
-    }
+     } catch (error: unknown) {
+  console.error("Promo fetch error:", error);
+
+  if (error instanceof Error) {
+    setError(error.message);
+  } else {
+    setError("Failed to load promos");
+  }
+}
+
   };
 
   useEffect(() => {

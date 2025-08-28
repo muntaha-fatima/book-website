@@ -750,10 +750,11 @@ export default function BooksPage() {
       const items = Array.isArray(data) ? data : data?.data ?? [];
 
       // filter for books only
-      const booksOnly = (items as any[]).filter((item) => item?.contentType === "book");
+     const booksOnly = (items as Book[]).filter((item) => item.contentType === "book");
+
 
       setBooks([...booksOnly].reverse());
-    } catch (err: any) {
+    } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "An error occurred";
       setError(message);
       toast.error(message);
