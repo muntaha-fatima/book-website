@@ -192,25 +192,234 @@
 // import { useEffect, useState } from "react"
 // import { Loader2, TriangleAlert } from "lucide-react"
 
-"use client"
+// "use client"
 
-import { useEffect, useState } from "react"
-import { Loader2, TriangleAlert } from "lucide-react"
+// import { useEffect, useState } from "react"
+// import { Loader2, TriangleAlert } from "lucide-react"
 
-// Interfaces ko theek tarah se define kiya gaya hai
+// // Interfaces ko theek tarah se define kiya gaya hai
+// interface PromoItem {
+//   _id?: string
+//   promoImageUrl: string
+//   isActive: boolean
+//   title?: string
+//   contentType: "image"
+// }
+
+// // Ye hardcoded data hai jo aapke banner carousel ke liye hai
+// const bannerImages = [
+//   {
+//     videoUrl: "/banner-video1.mp4",
+//     imageUrl: "/images/image-6.png",
+//     alt: "Islamic books showcase",
+//     title: "Unveil Sacred Knowledge",
+//     titleAr: "اكشف عن المعرفة المقدسة",
+//     subtitle: "Curated Islamic books to inspire your journey",
+//     subtitleAr: "كتب إسلامية مختارة لإلهام رحلتك",
+//     category: "All",
+//   },
+//   {
+//     videoUrl: "/banner-video2.mp4",
+//     imageUrl: "/images/images-2.jfif",
+//     alt: "Hadith and Tafseer collection",
+//     title: "Illuminate Your Path",
+//     titleAr: "أنر طريقك",
+//     subtitle: "Dive into Hadith and Tafseer",
+//     subtitleAr: "انغمس في الحديث والتفسير",
+//     category: "Hadith",
+//   },
+//   {
+//     videoUrl: "/banner-video3.mp4",
+//     imageUrl: "/images/images-4.jfif",
+//     alt: "Fiqh and Aqeedah books",
+//     title: "Strengthen Your Faith",
+//     titleAr: "قوّي إيمانك",
+//     subtitle: "Explore Fiqh and Aqeedah",
+//     subtitleAr: "استكشف الفقه والعقيدة",
+//     category: "Fiqh",
+//   },
+//   {
+//     videoUrl: "/banner-video3.mp4",
+//     imageUrl: "/images/images-2.jfif",
+//     alt: "Fiqh and Aqeedah books",
+//     title: "Strengthen Your Faith",
+//     titleAr: "قوّي إيمانك",
+//     subtitle: "Explore Fiqh and Aqeedah",
+//     subtitleAr: "استكشف الفقه والعقيدة",
+//     category: "Fiqh",
+//   },
+// ]
+
+// export default function App() {
+//   const [promoImages, setPromoImages] = useState<PromoItem[]>([])
+//   const [loading, setLoading] = useState(true)
+//   const [error, setError] = useState<string | null>(null)
+//   const [current, setCurrent] = useState(0)
+
+//   const fetchPromos = async () => {
+//     try {
+//       setLoading(true);
+//       setError(null);
+//       // Ab hum backend se sara data fetch karenge
+//       console.log("📡 Fetching promo images from API");
+//       const response = await fetch("https://frontend-rho-jet-76.vercel.app/api/promos");
+
+//       if (!response.ok) {
+//         const errorData = await response.json();
+//         throw new Error(errorData.message || "Failed to fetch promos");
+//       }
+
+//       const { data } = await response.json();
+//       console.log("✅ Data fetched from API:", data);
+
+//       setPromoImages(data);
+//  } catch (error: unknown) {
+//   if (error instanceof Error) {
+//     console.error("Promo fetch error:", error.message);
+//     setError(error.message);
+//   } else {
+//     console.error("Promo fetch error:", error);
+//     setError("Failed to load promos");
+//   }
+// } finally {
+//   setLoading(false);
+// }
+//   }
+//   useEffect(() => {
+//     fetchPromos();
+//   }, []);
+
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       setCurrent((prev) => (prev + 1) % bannerImages.length)
+//     }, 4000)
+//     return () => clearInterval(interval)
+//   }, [])
+
+//   if (loading)
+//     return (
+//       <div className="flex flex-col items-center justify-center min-h-[40vh] text-gray-600">
+//         <Loader2 className="h-10 w-10 animate-spin text-teal-600" />
+//         <p className="mt-4 font-medium">Loading promos...</p>
+//       </div>
+//     )
+
+//   if (error)
+//     return (
+//       <div className="flex flex-col items-center justify-center min-h-[40vh] text-red-600">
+//         <TriangleAlert className="h-10 w-10" />
+//         <p className="mt-4 text-lg">Something went wrong</p>
+//         <p className="text-sm text-red-400">{error}</p>
+//       </div>
+//     )
+
+//   return (
+//   <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white text-gray-800 font-sans antialiased">
+//     <div className="relative w-full h-[75vh] overflow-hidden rounded-3xl shadow-2xl border border-gray-200 mx-auto max-w-7xl mt-8">
+//         {bannerImages.map((img, index) => (
+//             <div
+//                 key={index}
+//                 className={`absolute inset-0 transition-opacity duration-1000 ease-in-out flex items-center justify-center ${
+//                     index === current ? "opacity-100 z-10" : "opacity-0 z-0"
+//                 }`}
+//             >
+//                 <img
+//                     src={img.imageUrl}
+//                     alt={img.alt}
+//                     className="w-full h-full object-cover object-center brightness-90 contrast-110 saturate-125"
+//                 />
+//                 <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent z-10" />
+//                 <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
+//                     <h1 className="text-white text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight animate-fade-in-up drop-shadow-lg [text-shadow:0_4px_15px_rgba(0,0,0,0.6)]">
+//                         Timeless Islamic Wisdom
+//                     </h1>
+//                     <h2
+//                         className="text-3xl sm:text-4xl md:text-5xl font-bold mt-3 drop-shadow-md animate-fade-in-up text-amber-300"
+//                         dir="rtl"
+//                     >
+//                         الحكمة الإسلامية الخالدة
+//                     </h2>
+//                     <p className="mt-4 text-lg sm:text-xl max-w-2xl font-medium animate-fade-in-up text-white/90 drop-shadow-md">
+//                         Curated books to inspire faith and knowledge
+//                     </p>
+//                     <p className="text-lg sm:text-xl mt-2 max-w-2xl font-medium animate-fade-in-up text-white/80 drop-shadow-md" dir="rtl">
+//                         كتب مختارة لإلهام الإيمان والمعرفة
+//                     </p>
+//                 </div>
+//             </div>
+//         ))}
+//     </div>
+//     <section className="container mx-auto px-4 py-16 w-full max-w-7xl">
+//         {/* New Heading Added Here */}
+//         <h3 className="text-3xl font-bold text-center mb-10 text-gray-700 md:text-4xl">
+//             Islamic Gallery
+//         </h3>
+        
+//         {!loading && !error && promoImages.length === 0 && (
+//             <div className="flex flex-col items-center justify-center min-h-[40vh] text-gray-600">
+//                 <p className="text-lg font-medium">No promo images available</p>
+//                 <p className="text-sm text-gray-500">Check back later!</p>
+//             </div>
+//         )}
+//         {!loading && !error && promoImages.length > 0 && (
+//             <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
+//                 {promoImages.map((item) => (
+//                     <div key={item._id} className="relative group overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer">
+//                         <img
+//                             src={item.promoImageUrl}
+//                             alt={item.title || `Promo ${item._id}`}
+//                             className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110 group-hover:brightness-75"
+//                         />
+//                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+//                             <span className="text-white text-base font-semibold text-center p-2 truncate">
+//                                 {item.title}
+//                             </span>
+//                         </div>
+//                     </div>
+//                 ))}
+//             </section>
+//         )}
+//     </section>
+// </div>
+//   )}
+
+
+
+
+
+
+
+
+"use client";
+
+import { useEffect, useState } from "react";
+import { Loader2, TriangleAlert, ChevronLeft, ChevronRight } from "lucide-react";
+
+// Define interfaces for type safety
 interface PromoItem {
-  _id?: string
-  promoImageUrl: string
-  isActive: boolean
-  title?: string
-  contentType: "image"
+  _id?: string;
+  promoImageUrl: string;
+  isActive: boolean;
+  title?: string;
+  contentType: "image";
 }
 
-// Ye hardcoded data hai jo aapke banner carousel ke liye hai
-const bannerImages = [
+interface BannerItem {
+  videoUrl: string;
+  imageUrl: string;
+  alt: string;
+  title: string;
+  titleAr: string;
+  subtitle: string;
+  subtitleAr: string;
+  category: string;
+}
+
+// Hardcoded banner data for carousel
+const bannerImages: BannerItem[] = [
   {
     videoUrl: "/banner-video1.mp4",
-    imageUrl: "/images/images (2).jfif",
+    imageUrl: "/images/image-6.png",
     alt: "Islamic books showcase",
     title: "Unveil Sacred Knowledge",
     titleAr: "اكشف عن المعرفة المقدسة",
@@ -220,7 +429,7 @@ const bannerImages = [
   },
   {
     videoUrl: "/banner-video2.mp4",
-    imageUrl: "/images/images (1).jfif",
+    imageUrl: "/images/images-2.jfif",
     alt: "Hadith and Tafseer collection",
     title: "Illuminate Your Path",
     titleAr: "أنر طريقك",
@@ -230,7 +439,7 @@ const bannerImages = [
   },
   {
     videoUrl: "/banner-video3.mp4",
-    imageUrl: "/images/images (3).jfif",
+    imageUrl: "/images/images-4.jfif",
     alt: "Fiqh and Aqeedah books",
     title: "Strengthen Your Faith",
     titleAr: "قوّي إيمانك",
@@ -238,19 +447,19 @@ const bannerImages = [
     subtitleAr: "استكشف الفقه والعقيدة",
     category: "Fiqh",
   },
-]
+];
 
 export default function App() {
-  const [promoImages, setPromoImages] = useState<PromoItem[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [current, setCurrent] = useState(0)
+  const [promoImages, setPromoImages] = useState<PromoItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [current, setCurrent] = useState(0);
 
+  // Fetch promo images from API
   const fetchPromos = async () => {
     try {
       setLoading(true);
       setError(null);
-      // Ab hum backend se sara data fetch karenge
       console.log("📡 Fetching promo images from API");
       const response = await fetch("https://frontend-rho-jet-76.vercel.app/api/promos");
 
@@ -261,104 +470,181 @@ export default function App() {
 
       const { data } = await response.json();
       console.log("✅ Data fetched from API:", data);
-
       setPromoImages(data);
- } catch (error: unknown) {
-  if (error instanceof Error) {
-    console.error("Promo fetch error:", error.message);
-    setError(error.message);
-  } else {
-    console.error("Promo fetch error:", error);
-    setError("Failed to load promos");
-  }
-} finally {
-  setLoading(false);
-}
-  }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Promo fetch error:", error.message);
+        setError(error.message);
+      } else {
+        console.error("Promo fetch error:", error);
+        setError("Failed to load promos");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchPromos();
   }, []);
 
+  // Carousel auto-advance
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % bannerImages.length)
-    }, 4000)
-    return () => clearInterval(interval)
-  }, [])
+      setCurrent((prev) => (prev + 1) % bannerImages.length);
+    }, 5000); // Increased to 5s for smoother transitions
+    return () => clearInterval(interval);
+  }, []);
 
-  if (loading)
+  // Manual navigation for carousel
+  const goToPrev = () => setCurrent((prev) => (prev - 1 + bannerImages.length) % bannerImages.length);
+  const goToNext = () => setCurrent((prev) => (prev + 1) % bannerImages.length);
+
+  if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[40vh] text-gray-600">
-        <Loader2 className="h-10 w-10 animate-spin text-teal-600" />
-        <p className="mt-4 font-medium">Loading promos...</p>
+      <div className="flex flex-col items-center justify-center min-h-[40vh] text-gray-600 bg-emerald-50">
+        <Loader2 className="h-12 w-12 animate-spin text-emerald-600" />
+        <p className="mt-4 font-medium text-lg">Loading promos...</p>
       </div>
-    )
+    );
+  }
 
-  if (error)
+  if (error) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[40vh] text-red-600">
-        <TriangleAlert className="h-10 w-10" />
-        <p className="mt-4 text-lg">Something went wrong</p>
+      <div className="flex flex-col items-center justify-center min-h-[40vh] text-red-600 bg-emerald-50">
+        <TriangleAlert className="h-12 w-12" />
+        <p className="mt-4 text-lg font-medium">Something went wrong</p>
         <p className="text-sm text-red-400">{error}</p>
       </div>
-    )
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white text-gray-800">
-      <div className="relative w-full h-[75vh] overflow-hidden mt-8 rounded-3xl shadow-2xl border border-gray-200">
+    <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white text-gray-800 font-sans antialiased">
+      {/* Carousel Section */}
+      <div className="relative w-full h-[75vh] overflow-hidden rounded-3xl shadow-2xl border border-emerald-200 mx-auto max-w-7xl mt-8">
         {bannerImages.map((img, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out flex items-center justify-center ${
               index === current ? "opacity-100 z-10" : "opacity-0 z-0"
             }`}
+            role="region"
+            aria-label={`Banner ${index + 1}`}
           >
             <img
               src={img.imageUrl}
               alt={img.alt}
-              className="w-full h-full object-cover object-center brightness-90 contrast-110"
+              loading="lazy"
+              className="w-full h-full object-cover object-center brightness-90 contrast-110 saturate-125"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent z-10" />
-            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
-              <h1 className="text-white text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight animate-fade-in-up drop-shadow-2xl">
-                Timeless Islamic Wisdom
+            <div className="absolute inset-0 bg-gradient-to-r from-emerald-900/70 via-emerald-700/40 to-transparent z-10" />
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 sm:px-6">
+              <h1
+                className="text-white text-3xl sm:text-4xl md:text-5xl font-serif font-extrabold tracking-tight animate-fade-in-up drop-shadow-lg [text-shadow:0_4px_15px_rgba(0,0,0,0.6)]"
+              >
+                {img.title}
               </h1>
               <h2
-                className="text-3xl sm:text-4xl md:text-5xl font-bold mt-3 drop-shadow-md animate-fade-in-up"
+                className="text-2xl sm:text-3xl md:text-4xl font-[Noto_Nastaliq_Urdu]  mt-2 drop-shadow-md animate-fade-in-up text-amber-300"
                 dir="rtl"
               >
-                الحكمة الإسلامية الخالدة
+                {img.titleAr}
               </h2>
-              <p className="mt-4 text-lg sm:text-xl max-w-2xl font-medium animate-fade-in-up text-white/90">
-                Curated books to inspire faith and knowledge
+              <p className="mt-4 text-base sm:text-lg max-w-xl font-medium animate-fade-in-up text-white/90 drop-shadow-md">
+                {img.subtitle}
               </p>
-              <p className="text-lg sm:text-xl mt-2 max-w-2xl font-medium animate-fade-in-up text-white/80" dir="rtl">
-                كتب مختارة لإلهام الإيمان والمعرفة
+              <p
+                className="text-base sm:text-lg mt-2 max-w-xl font-medium animate-fade-in-up text-white/80 drop-shadow-md"
+                dir="rtl"
+              >
+                {img.subtitleAr}
               </p>
+              <a
+                href="/books"
+                className="mt-6 inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-full hover:bg-emerald-700 transition-colors duration-300 shadow-md"
+              >
+                Explore Books
+              </a>
             </div>
           </div>
         ))}
+        {/* Navigation Controls */}
+        <button
+          onClick={goToPrev}
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-emerald-600/50 hover:bg-emerald-600 text-white p-3 rounded-full z-30 transition-colors duration-300"
+          aria-label="Previous slide"
+        >
+          <ChevronLeft size={24} />
+        </button>
+        <button
+          onClick={goToNext}
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-emerald-600/50 hover:bg-emerald-600 text-white p-3 rounded-full z-30 transition-colors duration-300"
+          aria-label="Next slide"
+        >
+          <ChevronRight size={24} />
+        </button>
+        {/* Carousel Dots */}
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-30">
+          {bannerImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrent(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === current ? "bg-amber-400 scale-125" : "bg-white/50"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
-      <section className="container mx-auto px-4 py-12 w-full max-w-7xl">
-        {!loading && !error && promoImages.length === 0 && (
+
+      {/* Gallery Section */}
+      <section className="container mx-auto px-4 py-16 w-full max-w-7xl">
+        <h3 className="text-3xl md:text-4xl font-serif font-bold text-center mb-10 text-emerald-700">
+          Islamic Gallery
+        </h3>
+
+        {promoImages.length === 0 && !loading && !error && (
           <div className="flex flex-col items-center justify-center min-h-[40vh] text-gray-600">
             <p className="text-lg font-medium">No promo images available</p>
             <p className="text-sm text-gray-500">Check back later!</p>
           </div>
         )}
-        {!loading && !error && promoImages.length > 0 && (
-          <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            {promoImages.map((item) => (
-              <img
-                key={item._id}
-                src={item.promoImageUrl}
-                alt={item.title || `Promo ${item._id}`}
-                className="w-full h-auto rounded shadow"
-              />
-            ))}
-          </section>
+{promoImages.length > 0 && !loading && !error && (
+  <div>
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+      {promoImages.map((item) => (
+        <div
+          key={item._id}
+          className="relative group overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer border border-emerald-200/50"
+        >
+          <img
+            src={item.promoImageUrl}
+            alt={item.title || `Promo ${item._id}`}
+            loading="lazy"
+            // Width aur Height dono ko full kar diya gaya hai
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 group-hover:brightness-75"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <span className="text-white text-base font-semibold text-center p-2 truncate">
+              {item.title}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+            <div className="mt-8 text-center">
+              <a
+                href="/books"
+                className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-full hover:bg-emerald-700 transition-colors duration-300 shadow-md"
+              >
+                View All Books
+              </a>
+            </div>
+          </div>
         )}
       </section>
     </div>
-  )
+  );
 }
