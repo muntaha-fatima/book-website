@@ -19,7 +19,7 @@ return(
       <h3 className="text-white font-semibold mb-2">Quick Links</h3>
       <ul className="space-y-1 text-sm">
         <li><a href="/" className="hover:text-white">Home</a></li>
-        <li><a href="/books" className="hover:text-white">Books</a></li>
+        <li><a href="/book/slug" className="hover:text-white">Books</a></li>
         <li><a href="/about" className="hover:text-white">About</a></li>
         <li><a href="/contact" className="hover:text-white">Contact</a></li>
       </ul>
