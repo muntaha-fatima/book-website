@@ -655,12 +655,11 @@ import {
   Search,
   BookOpen,
   Book,
-  Heart,
-  GraduationCap,
+  
   Filter,
   X,
   Eye,
-  ShoppingCart,
+ 
   Star,
   Share2,
   Download,
