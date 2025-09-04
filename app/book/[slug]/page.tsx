@@ -830,12 +830,6 @@ const booksOnly = items.filter(
     setSelectedBook(null);
   };
 
-  const addToCart = (book: Book, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCart((prev) => [...prev, book]);
-    toast.success(`${book.title || "Book"} added to cart!`);
-    setShowCart(true);
-  };
 
   const shareBook = (book: Book | null) => {
     if (!book) return toast.error("No book selected");
@@ -852,10 +846,6 @@ const booksOnly = items.filter(
     }
   };
 
-  const getCategoryColor = (categoryName?: string) => {
-    const category = categories.find((cat) => cat.name === categoryName);
-    return category?.color || "bg-teal-600";
-  };
 
   const clearFilters = () => {
     setSearchTerm("");
