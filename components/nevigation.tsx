@@ -1,9 +1,10 @@
 // components/Navbar.tsx
 "use client";
 
+import { Menu, UserRound, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X, Search, ShoppingCart, UserRound } from "lucide-react";
+
 
 // Refined color palette for a professional look
 const COLORS = {
@@ -84,21 +85,15 @@ export default function Navbar() {
               aria-label="Search"
               className={`hidden md:block text-gray-600 ${COLORS.primaryHover} p-2 rounded-full ${COLORS.accent} hover:bg-emerald-100 transition-colors`}
             >
-              <Search size={20} />
+             
             </button>
             <button
               aria-label="Shopping Cart"
               className={`hidden md:block text-gray-600 ${COLORS.primaryHover} p-2 rounded-full ${COLORS.accent} hover:bg-emerald-100 transition-colors`}
             >
-              <ShoppingCart size={20} />
+             
             </button>
-            <Link
-              href="/signin"
-              className={`hidden md:flex items-center space-x-2 text-gray-700 ${COLORS.primaryHover} font-medium text-sm p-2 rounded-full ${COLORS.accent} hover:bg-emerald-100 transition-colors`}
-            >
-              <UserRound size={20} />
-              <span>Sign In</span>
-            </Link>
+           
 
             {/* Mobile: Menu Toggle */}
             <button
@@ -132,21 +127,8 @@ export default function Navbar() {
           ))}
           <hr className="border-gray-200" />
           <div className="py-2 space-y-2">
-            <Link
-              href="/signin"
-              onClick={toggleMenu}
-              className={`flex items-center space-x-2 text-gray-800 ${COLORS.primaryHover} font-medium py-2 px-3 rounded-md hover:bg-emerald-50 transition-colors`}
-            >
-              <UserRound size={18} />
-              <span>Sign In</span>
-            </Link>
-            <button
-              onClick={toggleMenu}
-              className={`w-full flex items-center space-x-2 text-gray-800 ${COLORS.primaryHover} font-medium py-2 px-3 rounded-md hover:bg-emerald-50 transition-colors`}
-            >
-              <Search size={18} />
-              <span>Search</span>
-            </button>
+           
+            
           </div>
         </div>
       </div>

@@ -663,6 +663,7 @@ import {
   ShoppingCart,
   Star,
   Share2,
+  Download,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -690,14 +691,7 @@ interface Book {
 
 const categories = [
   { name: "All", nameAr: "تمام", icon: BookOpen, color: "bg-teal-600" },
-  { name: "Fiqh", nameAr: "فقہ", icon: Book, color: "bg-rose-500" },
-  { name: "Hadith", nameAr: "حدیث", icon: Heart, color: "bg-amber-500" },
-  { name: "Arabic Grammar", nameAr: "عربی گرامر", icon: GraduationCap, color: "bg-indigo-500" },
-  { name: "Tafseer", nameAr: "تفسير", icon: BookOpen, color: "bg-teal-600" },
-  { name: "Aqeedah", nameAr: "عقيدة", icon: Heart, color: "bg-rose-500" },
-  { name: "Tasawwuf", nameAr: "تصوف", icon: Heart, color: "bg-amber-500" },
-  { name: "Logic", nameAr: "منطق", icon: GraduationCap, color: "bg-indigo-500" },
-  { name: "Usool al-Fiqh", nameAr: "اصول الفقہ", icon: Book, color: "bg-teal-600" },
+  
 ];
 
 export default function BooksPage() {
@@ -1008,47 +1002,36 @@ const booksOnly = items.filter(
             <p className="text-slate-600 english-text text-base mt-2 font-medium">{filteredBooks.length} books found</p>
           </div>
           <div className="relative">
-            <Button
-              variant="outline"
-              onClick={() => setShowCart(!showCart)}
-              className="bg-white/90 border-teal-200 text-teal-600 hover:bg-teal-50 btn-neumorphic rounded-full px-6 py-3 shadow-lg hover:shadow-xl"
-              aria-label={`Cart with ${cart.length} items`}
-            >
-              <ShoppingCart className="w-7 h-7 mr-2" />
-              Cart
-              {cart.length > 0 && (
-                <Badge className="absolute -top-3 -right-3 bg-rose-600 text-white text-xs px-3 py-1.5 rounded-full animate-pulse">
-                  {cart.length}
-                </Badge>
-              )}
-            </Button>
+           
 
             {showCart && cart.length > 0 && (
-              <div className="absolute right-0 mt-4 w-96 bg-white/90 rounded-3xl shadow-2xl z-50 border border-teal-100/30 p-6 backdrop-blur-md animate-slide-in">
-                <h4 className="text-base font-bold text-slate-900 english-text mb-4">Cart ({cart.length})</h4>
-                {cart.slice(0, 4).map((item, index) => (
-                  <div key={index} className="flex items-center gap-4 py-3 border-b border-teal-100/30">
-                    {item.imageUrl ? (
-                      <img src={item.imageUrl} alt={item.title} className="w-14 h-14 object-contain rounded-lg" loading="lazy" />
-                    ) : (
-                      <BookOpen className="w-8 h-8 text-teal-600" />
-                    )}
-                    <div className="flex-1">
-                      <span className="text-sm text-slate-700 english-text font-medium line-clamp-1">{item.title || "Untitled"}</span>
-                      <p className="text-xs text-slate-500 english-text">{item.author || "Unknown"}</p>
-                    </div>
-                  </div>
-                ))}
-                <Button
-                  className="w-full mt-4 bg-teal-600 hover:bg-teal-700 text-white rounded-full btn-neumorphic py-3 font-semibold"
-                  onClick={() => toast.info("Full cart view coming soon!")}
-                >
-                  View Cart
-                </Button>
-              </div>
-            )}
-          </div>
+  <div className="absolute right-0 mt-4 w-80 bg-white/90 rounded-2xl shadow-lg z-50 border border-teal-100/30 p-6 backdrop-blur-md animate-slide-in">
+    <h4 className="text-base font-bold text-slate-900 mb-4">Downloads</h4>
+    {cart.slice(0, 4).map((item, index) => (
+      <div key={index} className="flex items-center gap-4 py-3 border-b border-teal-100/30">
+        {item.imageUrl ? (
+          <img src={item.imageUrl} alt={item.title} className="w-12 h-12 object-contain rounded-lg" loading="lazy" />
+        ) : (
+          <BookOpen className="w-6 h-6 text-teal-600" />
+        )}
+        <div className="flex-1">
+          <span className="text-sm text-slate-700 font-medium line-clamp-1">{item.title || "Untitled"}</span>
+          <p className="text-xs text-slate-500">{item.author || "Unknown"}</p>
+          {/* ✅ Download button */}
+          <a
+            href={item.pdfUrl || "#"}
+            download
+            className="text-xs text-teal-600 font-semibold hover:underline mt-1 block"
+          >
+            ⬇ Download
+          </a>
         </div>
+      </div>
+    ))}
+  </div>
+)}
+</div>
+</div>
 
         {error ? (
           <div className="text-center py-28 bg-white/90 border border-teal-100/30 rounded-3xl shadow-xl backdrop-blur-md">
@@ -1083,16 +1066,14 @@ const booksOnly = items.filter(
                 >
                   <CardHeader className="p-6">
                     <div className="flex items-start justify-between mb-4">
-                      <Badge className={`${getCategoryColor(book.category)} text-white px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide shadow-sm`}>
-                        {book.categoryAr || book.category || "Unknown"}
-                      </Badge>
+                     
                       <BookOpen className="w-8 h-8 text-teal-600 group-hover:scale-125 group-hover:rotate-6 transition-transform duration-300" />
                     </div>
                     <CardTitle className="text-2xl arabic-text font-bold text-slate-900 group-hover:text-teal-600 transition-colors duration-200" dir="rtl">
                       {book.titleAr || book.title || "Untitled"}
                     </CardTitle>
                     <CardDescription className="text-base english-text text-slate-600 font-semibold">
-                      {book.author || "Unknown"}
+                      {book.author || "writer"}
                     </CardDescription>
                   </CardHeader>
 
@@ -1100,7 +1081,7 @@ const booksOnly = items.filter(
                     {book.imageUrl ? (
                       <img
                         src={book.imageUrl}
-                        alt={`Cover of ${book.title || "Untitled"} by ${book.author || "Unknown"}`}
+                        alt={`Cover of ${book.title || "Untitled"} by ${book.author || "writer"}`}
               
                         className="w-full h-72 object-contain rounded-2xl mb-4 bg-cream-50 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-2"
                         loading="lazy"
@@ -1118,13 +1099,13 @@ const booksOnly = items.filter(
                             {[...Array(5)].map((_, i) => (
                               <Star
                                 key={i}
-                                className={`w-6 h-6 ${i < Math.round(book.rating ?? 0) ? "text-amber-400 fill-amber-400" : "text-slate-200"}`}
+                                className={`w-6 h-6 ${i < Math.round(book.rating ?? 7) ? "text-amber-400 fill-amber-400" : "text-slate-200"}`}
                               />
                             ))}
                             <span className="text-sm text-slate-600 english-text ml-2 font-medium">({book.rating})</span>
                           </>
                         ) : (
-                          <span className="text-sm text-slate-600 english-text font-medium">No ratings yet</span>
+                          <span className="text-sm text-slate-600 english-text font-medium">⭐⭐⭐⭐⭐</span>
                         )}
                       </div>
 
@@ -1139,25 +1120,30 @@ const booksOnly = items.filter(
                     </p>
 
                     <div className="flex justify-between items-center gap-4">
-                      <Button
-                        className="flex-1 bg-teal-600 hover:bg-teal-700 text-white rounded-full btn-neumorphic py-3 font-bold"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openBook(book);
-                        }}
-                      >
-                        <Eye className="w-6 h-6 mr-2" />
-                        Preview
-                      </Button>
-                      <Button
-                        variant="outline"
-                        className="flex-1 bg-white/90 border-rose-200 text-rose-600 hover:bg-rose-50 btn-neumorphic py-3 font-bold"
-                        onClick={(e) => addToCart(book, e)}
-                      >
-                        <ShoppingCart className="w-6 h-6 mr-2" />
-                        Add to Cart
-                      </Button>
-                    </div>
+  {/* ✅ Preview Button */}
+  <Button
+    className="flex-1 bg-teal-600 hover:bg-teal-700 text-white rounded-full btn-neumorphic py-3 font-bold"
+    onClick={(e) => {
+      e.stopPropagation();
+      openBook(book);
+    }}
+  >
+    <Eye className="w-6 h-6 mr-2" />
+    Preview
+  </Button>
+
+  {/* ✅ Download PDF Button (Add to Cart ki jagah) */}
+  <a
+    href={book.pdfUrl || "#"} // Book ka PDF link model me hona chahiye
+    download
+    className="flex-1 text-center bg-white/90 border-teal-200 text-teal-600 hover:bg-teal-50 btn-neumorphic py-3 font-bold rounded-full flex items-center justify-center"
+    onClick={(e) => e.stopPropagation()}
+  >
+    <Download className="w-6 h-6 mr-2" />
+    Download
+  </a>
+</div>
+
                   </CardContent>
                 </Card>
               ))}
@@ -1272,7 +1258,7 @@ const booksOnly = items.filter(
                     {selectedBook?.titleAr || selectedBook?.title || "Untitled"}
                   </DialogTitle>
                   <DialogDescription className="text-base sm:text-lg english-text text-teal-600 font-semibold">
-                    {selectedBook?.title || "Untitled"} by {selectedBook?.author || "Unknown"}
+                    {selectedBook?.title || "Untitled"} by {selectedBook?.author || "writer"}
                   </DialogDescription>
                 </div>
                 <div className="flex gap-3">
