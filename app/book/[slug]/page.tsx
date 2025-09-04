@@ -705,9 +705,9 @@ export default function BooksPage() {
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [isBookOpen, setIsBookOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
-  const [showCart, setShowCart] = useState(false);
+  const [showCart,] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [cart, setCart] = useState<Book[]>([]);
+  const [cart, ] = useState<Book[]>([]);
   const booksPerPage = 12;
   const searchInputRef = useRef<HTMLInputElement>(null);
 
