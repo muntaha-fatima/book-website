@@ -561,10 +561,10 @@ export default function App() {
                 {img.subtitleAr}
               </p>
               <a
-                href="/book/slug"
+                href="/about"
                 className="mt-6 inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-full hover:bg-emerald-700 transition-colors duration-300 shadow-md"
               >
-                Explore Books
+                Explore About
               </a>
             </div>
           </div>
@@ -636,10 +636,10 @@ export default function App() {
     </div>
             <div className="mt-8 text-center">
               <a
-                href="/books"
+                href="/book/slug"
                 className="inline-flex items-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-full hover:bg-emerald-700 transition-colors duration-300 shadow-md"
               >
-                View All iamges
+                View All Book
               </a>
             </div>
           </div>
