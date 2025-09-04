@@ -1,7 +1,7 @@
 // components/Navbar.tsx
 "use client";
 
-import { Menu, UserRound, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
